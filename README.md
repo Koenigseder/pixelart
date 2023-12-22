@@ -30,7 +30,7 @@ automatically
 
 ## Using the API & Endpoints
 
-- `/web` (GET)
+- `/web`
   - Method: **GET**
   - Get the frontend in this project - Of course the code can be modified, so you can use your own frontend.
 At the moment it's a very simple HTML canvas
