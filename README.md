@@ -36,7 +36,7 @@ automatically
 At the moment it's a very simple HTML canvas
 
 
-- `/pixels`
+- `/api/pixels`
   - Method: **GET**
   - Get the canvas information. The response contains the size of the canvas and a three-dimensional array for the canvas representation.
     - First dimension: Rows
@@ -68,7 +68,7 @@ At the moment it's a very simple HTML canvas
 ```
 
 
-- `/pixel`
+- `/api/pixel`
   - Method: **POST**
   - Modify the color of a single pixel - Coordinates are zero-indexed
   - Example request body (Set pixel color at (0|2) to green):
