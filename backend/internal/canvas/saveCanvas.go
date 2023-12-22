@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+var LastSaveTimestamp int
+
 // SaveCanvasAsFile - Save the canvas as a backup file
 func SaveCanvasAsFile() {
 	backupFilePath := os.Getenv("BACKUP_DIR_PATH")
@@ -17,6 +19,10 @@ func SaveCanvasAsFile() {
 
 	for {
 		time.Sleep(10 * time.Second)
+
+		if LastSaveTimestamp == Canvas.LastModified {
+			continue
+		}
 
 		data, err := json.Marshal(Canvas)
 		if err != nil {
@@ -32,5 +38,7 @@ func SaveCanvasAsFile() {
 		}
 
 		log.Printf("Successfully wrote to %s\n", filePath)
+
+		LastSaveTimestamp = Canvas.LastModified
 	}
 }
