@@ -5,6 +5,8 @@ This little project is a homage to `r\place`.
 It's an API written in Go which can be used to create your own pixel-placing event.
 Over this API you can create a pixel canvas and send requests to place single pixels using coordinates and RGB values on it.
 
+This API uses REST endpoints and a WebSocket endpoint for communication at the moment.
+
 Example using the sample frontend and Python script:
 
 ![Sample picture rendering](/example/sample-picture-rendering.gif)
@@ -36,7 +38,13 @@ automatically
 At the moment it's a very simple HTML canvas
 
 
-- `/api/pixels`
+- `/api/ws`
+  - Method: **GET**
+  - WebSocket endpoint for real time updates on the canvas
+  - Returns a complete object each time (see `/api/canvas` for response object)
+
+
+- `/api/canvas`
   - Method: **GET**
   - Get the canvas information. The response contains the size of the canvas and a three-dimensional array for the canvas representation.
     - First dimension: Rows
@@ -63,7 +71,8 @@ At the moment it's a very simple HTML canvas
             [0, 0, 0],
             [0, 0, 0]
         ]
-    ]
+    ],
+    "lastModified": 1703285653
 }
 ```
 

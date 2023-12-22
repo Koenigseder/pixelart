@@ -6,12 +6,14 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 )
 
 type CanvasStruct struct {
-	Width  int       `json:"width"`
-	Height int       `json:"height"`
-	Pixels [][][]int `json:"pixels"`
+	Width        int       `json:"width"`
+	Height       int       `json:"height"`
+	Pixels       [][][]int `json:"pixels"`
+	LastModified int       `json:"lastModified"`
 }
 
 var Canvas CanvasStruct
@@ -21,6 +23,7 @@ func (can *CanvasStruct) InitializeEmpty(width, height int) {
 	can.Width = width
 	can.Height = height
 	can.Pixels = make([][][]int, width)
+	can.LastModified = int(time.Now().Unix())
 
 	for i := 0; i < can.Width; i++ {
 		can.Pixels[i] = make([][]int, height)
@@ -54,6 +57,8 @@ func (can *CanvasStruct) InitializeFromLatestBackup(disasterWidth, disasterHeigh
 		return err
 	}
 
+	LastSaveTimestamp = Canvas.LastModified
+
 	return nil
 }
 
@@ -83,6 +88,7 @@ func (can *CanvasStruct) UpdatePixel(x, y int, rgb []int) error {
 	}
 
 	can.Pixels[y][x] = rgb
+	can.LastModified = int(time.Now().Unix())
 
 	return nil
 }

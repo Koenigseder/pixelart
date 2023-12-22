@@ -24,8 +24,9 @@ func setupRouter() *gin.Engine {
 	router.StaticFS("/web", http.Dir("../frontend"))
 
 	apiGroup := router.Group("/api")
-	apiGroup.GET("/pixels", rest.GetPixels) // Get all pixels
-	apiGroup.POST("/pixel", rest.SetPixel)  // Set a specific pixel
+	apiGroup.GET("/canvas", rest.GetCanvas)     // Get canvas
+	apiGroup.POST("/pixel", rest.SetPixel)      // Set a specific pixel
+	apiGroup.GET("/ws", rest.WebSocketEndpoint) // WebSocket endpoint
 
 	return router
 }

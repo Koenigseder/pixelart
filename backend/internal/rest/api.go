@@ -3,14 +3,16 @@ package rest
 import (
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 
 	"github.com/Koenigseder/pixelart/internal/canvas"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 )
 
-// GetPixels (GET) - Get canvas as JSON
-func GetPixels(c *gin.Context) {
+// GetCanvas (GET) - Get canvas as JSON
+func GetCanvas(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, canvas.Canvas)
 }
 
@@ -41,4 +43,38 @@ func SetPixel(c *gin.Context) {
 	}
 
 	c.IndentedJSON(200, requestBody)
+}
+
+// WebSocketEndpoint - Endpoint for the WebSocket
+func WebSocketEndpoint(c *gin.Context) {
+	upgrader := websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
+	}
+
+	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+
+	ws, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+	if err != nil {
+		log.Fatalf("Error establishing WebSocket connection: %v\n", err)
+		return
+	}
+	defer ws.Close()
+
+	lastCanvasChange := canvas.Canvas.LastModified
+	if err := ws.WriteJSON(canvas.Canvas); err != nil {
+		log.Println(err)
+		return
+	}
+
+	for {
+		if lastCanvasChange != canvas.Canvas.LastModified {
+			if err := ws.WriteJSON(canvas.Canvas); err != nil {
+				log.Println(err)
+				return
+			}
+
+			lastCanvasChange = canvas.Canvas.LastModified
+		}
+	}
 }

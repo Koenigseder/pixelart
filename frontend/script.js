@@ -2,31 +2,14 @@ class Canvas {
   constructor() {
     this.canvas = document.getElementById("pixelCanvas");
     this.ctx = this.canvas.getContext("2d");
+    this.socket = new WebSocket("ws://localhost:8080/api/ws");
 
-    this.updateCanvas();
-
-    // Listen to tab visibility change
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "visible") {
-        this.updateCanvas();
-      }
-    });
+    this.drawCanvas();
   }
 
-  updateCanvas() {
-    this.drawPixels();
-
-    setTimeout(() => {
-      // Only update the chart if the tab is active
-      if (document.visibilityState === "visible") {
-        this.updateCanvas();
-      }
-    }, 500);
-  }
-
-  drawPixels() {
-    getPixels().then((res) => {
-      const pixels = res.pixels;
+  drawCanvas() {
+    this.socket.onmessage = (msg) => {
+      const pixels = JSON.parse(msg.data).pixels;
 
       pixels.map((row, i) => {
         row.map((cell, j) => {
@@ -34,7 +17,7 @@ class Canvas {
           this.ctx.fillRect(i, j, 1, 1);
         });
       });
-    });
+    };
   }
 }
 
