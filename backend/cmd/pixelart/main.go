@@ -8,6 +8,7 @@ import (
 
 	"github.com/Koenigseder/pixelart/internal/canvas"
 	"github.com/Koenigseder/pixelart/internal/rest"
+	"github.com/Koenigseder/pixelart/internal/websocket"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -24,9 +25,9 @@ func setupRouter() *gin.Engine {
 	router.StaticFS("/web", http.Dir("../frontend"))
 
 	apiGroup := router.Group("/api")
-	apiGroup.GET("/canvas", rest.GetCanvas)     // Get canvas
-	apiGroup.POST("/pixel", rest.SetPixel)      // Set a specific pixel
-	apiGroup.GET("/ws", rest.WebSocketEndpoint) // WebSocket endpoint
+	apiGroup.GET("/canvas", rest.GetCanvas)       // Get canvas
+	apiGroup.POST("/pixel", rest.SetPixel)        // Set a specific pixel
+	apiGroup.GET("/ws", websocket.ServeWebsocket) // WebSocket endpoint
 
 	return router
 }

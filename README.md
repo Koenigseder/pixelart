@@ -40,14 +40,14 @@ In the `scripts` folder are sample scripts to create a volume, build the image a
 
 - `/web`
   - Method: **GET**
-  - Get the frontend in this project - Of course the code can be modified, so you can use your own frontend.
+  - Get the frontend of this project - Of course the code can be modified, so you can use your own frontend.
 At the moment it's a very simple HTML canvas
 
 
 - `/api/ws`
-  - Method: **GET**
-  - WebSocket endpoint for real time updates on the canvas
-  - Returns a complete object each time (see `/api/canvas` for response object)
+  - WebSocket endpoint for real time updates of the canvas and updating single pixels' color
+  - Get a complete canvas object every time it updates (see `/api/canvas` for response object)
+  - To update a pixel send a message with needed information (see `/api/pixel` request body for sample message)
 
 
 - `/api/canvas`

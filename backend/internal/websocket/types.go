@@ -1,4 +1,4 @@
-package rest
+package websocket
 
 // SetPixelRequestBody - Request body for SetPixel
 type SetPixelRequestBody struct {
