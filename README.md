@@ -30,6 +30,12 @@ automatically
 4. Run `go run cmd/pixelart/main.go`
 5. The API and webserver is now running - Open `localhost:8080/web` to access the frontend
 
+### Run with Docker
+
+Optionally you can also run the API as a Docker container. Therefore, it is recommended to use a volume to permanently store the backup files.
+
+In the `scripts` folder are sample scripts to create a volume, build the image and run it as a container.
+
 ## Using the API & Endpoints
 
 - `/web`
